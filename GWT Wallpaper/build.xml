@@ -1,0 +1,22 @@
+<project name="GWT Wallpaper" basedir=".">
+    <property name="out_dir" value="/home/richard/workspace/Website/wallpaper" />
+
+	<target name="push output">
+		<echo message="push output" />
+		<delete>
+			<fileset dir="${out_dir}/gwt_wallpaper" includes="**" />
+		</delete>
+		<copy todir="${out_dir}/gwt_wallpaper" includeEmptyDirs="false" overwrite="true">
+			<fileset dir="war/gwt_wallpaper" excludes="WEB-INF/**" />
+
+		</copy>
+		<copy todir="${out_dir}" includeEmptyDirs="false" overwrite="true">
+			<fileset dir="war">
+				<include name="GWT_Wallpaper.*" />
+				<!--    		<include name="*.jpg"/>
+    		<include name="patternIcons/*.png"/>  -->
+			</fileset>
+		</copy>
+	</target>
+
+</project>
