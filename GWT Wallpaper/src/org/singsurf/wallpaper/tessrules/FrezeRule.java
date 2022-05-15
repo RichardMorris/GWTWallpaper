@@ -82,17 +82,18 @@ public abstract class FrezeRule extends TessRule
             fd.fund[0].y = fd.cellVerts[1].y-100*frameV.y;
             fd.fund[1].x = fd.cellVerts[1].x+100*frameV.x;
             fd.fund[1].y = fd.cellVerts[1].y+100*frameV.y;
-            fd.fund[2].x = fd.cellVerts[1].x+frameU.x+100*frameV.x;
-            fd.fund[2].y = fd.cellVerts[1].y+frameU.y+100*frameV.y;
-            fd.fund[3].x = fd.cellVerts[1].x+frameU.x-100*frameV.x;
-            fd.fund[3].y = fd.cellVerts[1].y+frameU.y-100*frameV.y;
+            fd.fund[2].x = fd.cellVerts[1].x+frameU.x/2+100*frameV.x;
+            fd.fund[2].y = fd.cellVerts[1].y+frameU.y/2+100*frameV.y;
+            fd.fund[3].x = fd.cellVerts[1].x+frameU.x/2-100*frameV.x;
+            fd.fund[3].y = fd.cellVerts[1].y+frameU.y/2-100*frameV.y;
             fd.numFund = 4;
         }
+
 
         //@Override
         public void fun(int[] in,int[] out,int det)
         {
-            int alpha = in[0] % det; if(alpha < 0) alpha = alpha + det;
+            int alpha = in[0] % (det/2); if(alpha < 0) alpha = alpha + (det/2);
             int beta = in[1];
             out[0] = alpha;
             out[1] = beta;
@@ -186,17 +187,17 @@ public abstract class FrezeRule extends TessRule
             fd.fund[0].y = fd.cellVerts[1].y;
             fd.fund[1].x = fd.cellVerts[1].x+100*frameV.x;
             fd.fund[1].y = fd.cellVerts[1].y+100*frameV.y;
-            fd.fund[2].x = fd.cellVerts[1].x+frameU.x+100*frameV.x;
-            fd.fund[2].y = fd.cellVerts[1].y+frameU.y+100*frameV.y;
-            fd.fund[3].x = fd.cellVerts[1].x+frameU.x;
-            fd.fund[3].y = fd.cellVerts[1].y+frameU.y;
+            fd.fund[2].x = fd.cellVerts[1].x+frameU.x/2+100*frameV.x;
+            fd.fund[2].y = fd.cellVerts[1].y+frameU.y/2+100*frameV.y;
+            fd.fund[3].x = fd.cellVerts[1].x+frameU.x/2;
+            fd.fund[3].y = fd.cellVerts[1].y+frameU.y/2;
             fd.numFund = 4;
         }
 
         //@Override
         public void fun(int[] in,int[] out,int det)
         {
-            int alpha = in[0] % det; if(alpha < 0) alpha = alpha + det;
+            int alpha = in[0] % (det/2); if(alpha < 0) alpha = alpha + (det/2);
             int beta = in[1];
             if(beta<0) beta = -beta;
             out[0] = alpha;

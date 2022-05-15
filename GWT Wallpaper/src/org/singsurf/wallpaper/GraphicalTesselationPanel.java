@@ -88,17 +88,22 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
     	this.setWidget(0, 1, R1cb.but);
     	this.setWidget(1, 0, CMcb.but);
     	this.setWidget(1, 1, CMMcb.but);
+    	
     	this.setWidget(2, 0, PMcb.but);
     	this.setWidget(2, 1, PGcb.but);
-    	this.setWidget(3, 0, PMGcb.but);
-    	this.setWidget(3, 1, PGGcb.but);
-    	this.setWidget(3, 2, PMMcb.but);
+    	
+    	this.setWidget(3, 0, PMMcb.but);
+    	this.setWidget(3, 1, PMGcb.but);
+    	this.setWidget(3, 2, PGGcb.but);
+    	
     	this.setWidget(4, 0, P4cb.but);
-    	this.setWidget(4, 1, P4Gcb.but);
-    	this.setWidget(4, 2, P4Mcb.but);
+    	this.setWidget(4, 1, P4Mcb.but);
+    	this.setWidget(4, 2, P4Gcb.but);
+    	
     	this.setWidget(5, 0, P3cb.but);
-    	this.setWidget(5, 1, P31Mcb.but);
-    	this.setWidget(5, 2, P3M1cb.but);	
+    	this.setWidget(5, 1, P3M1cb.but);	
+    	this.setWidget(5, 2, P31Mcb.but);
+    	
     	this.setWidget(6, 0, P6cb.but);
     	this.setWidget(6, 1, P6Mcb.but);
 
