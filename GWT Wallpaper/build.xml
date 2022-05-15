@@ -1,5 +1,5 @@
 <project name="GWT Wallpaper" basedir=".">
-    <property name="out_dir" value="/home/richard/workspace/Website/wallpaper" />
+    <property name="out_dir" value="C:\Users\rich\eclipse-workspace\SingSurf Website\wallpaper" />
 
 	<target name="push output">
 		<echo message="push output" />

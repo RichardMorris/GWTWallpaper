@@ -155,7 +155,7 @@ public class Wallpaper
     public void paintCanvas(Graphics g) {
 	if (DEBUG)
 	    log("paintCanvas" + dr.dispRect + " clicks " + clickCount);
-	long t0 = System.currentTimeMillis();
+	//long t0 = System.currentTimeMillis();
 
 	// System.out.printf("cp %d %d %d %d %d
 	// %d\n",fd.verticies[0].x,fd.verticies[0].y,fd.verticies[1].x,fd.verticies[1].y,fd.verticies[2].x,fd.verticies[2].y);
@@ -187,7 +187,7 @@ public class Wallpaper
 
 	g.translate(-this.offset.x, -this.offset.y);
 	paintDone = true;
-	long t1 = System.currentTimeMillis();
+	//long t1 = System.currentTimeMillis();
 	// g.setColor(Color.white);
 	// g.drawRect(0, 0, 150, 25);
 	g.setColor(Color.black);

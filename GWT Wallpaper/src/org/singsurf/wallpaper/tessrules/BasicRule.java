@@ -95,8 +95,7 @@ public abstract class BasicRule extends TessRule
         sin = frameU.y / len;
         boolean error_flag = false;
 
-        long t1=System.currentTimeMillis();
-//        long n1 = System.nanoTime();
+        //        long n1 = System.nanoTime();
         //        Arrays.fill(dr.pixels, Color.BLACK.getRGB());
 
         //        int latticeWidth = fd.getLatticeWidth();
@@ -182,12 +181,9 @@ public abstract class BasicRule extends TessRule
 
                 }
             }
-        long t2 = System.currentTimeMillis();
-//        long n2 = System.nanoTime();
+        //	long n2 = System.nanoTime();
 
-        //System.out.println(n2-n1);
-
-        //dr.fillSource();
+        //	System.out.println(n2-n1);
     }
     abstract void fun(int x,int y,int[] out);
 

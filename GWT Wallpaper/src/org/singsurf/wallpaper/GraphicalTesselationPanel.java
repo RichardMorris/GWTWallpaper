@@ -65,7 +65,7 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
         GraphicalTesselationBox P3M1cb = new GraphicalTesselationBox(HexiRule.triP3m1,"p3m1");
         GraphicalTesselationBox P6cb = new GraphicalTesselationBox(HexiRule.triP6,"p6");
         GraphicalTesselationBox P6Mcb = new GraphicalTesselationBox(HexiRule.triP6m,"p6m");
-
+/*
     	this.setWidget(0, 0, TTcb.but);
     	this.setWidget(0, 1, R1cb.but);
     	this.setWidget(1, 0, CMcb.but);
@@ -78,10 +78,31 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
     	this.setWidget(4, 1, P4cb.but);
     	this.setWidget(5, 0, P4Gcb.but);
     	this.setWidget(5, 1, P4Mcb.but);
-    	this.setWidget(6, 0, P31Mcb.but);
-    	this.setWidget(6, 1, P3M1cb.but);
-    	this.setWidget(7, 0, P6Mcb.but);
+    	this.setWidget(6, 0, P3cb.but);
+    	this.setWidget(6, 1, P31Mcb.but);
+    	this.setWidget(7, 0, P3M1cb.but);	
+    	this.setWidget(7, 1, P6cb.but);
+    	this.setWidget(8, 0, P6Mcb.but);
+*/  	
+    	this.setWidget(0, 0, TTcb.but);
+    	this.setWidget(0, 1, R1cb.but);
+    	this.setWidget(1, 0, CMcb.but);
+    	this.setWidget(1, 1, CMMcb.but);
+    	this.setWidget(2, 0, PMcb.but);
+    	this.setWidget(2, 1, PGcb.but);
+    	this.setWidget(3, 0, PMGcb.but);
+    	this.setWidget(3, 1, PGGcb.but);
+    	this.setWidget(3, 2, PMMcb.but);
+    	this.setWidget(4, 0, P4cb.but);
+    	this.setWidget(4, 1, P4Gcb.but);
+    	this.setWidget(4, 2, P4Mcb.but);
+    	this.setWidget(5, 0, P3cb.but);
+    	this.setWidget(5, 1, P31Mcb.but);
+    	this.setWidget(5, 2, P3M1cb.but);	
+    	this.setWidget(6, 0, P6cb.but);
+    	this.setWidget(6, 1, P6Mcb.but);
 
+        
         friezeChoice = new ListBox();
         friezeChoice.setVisibleItemCount(1);
         String descript[] = {"Frieze groups"," - pppp"," - pbpb"," - cccc"," - pqpq"," - pdpd"," - pdbq"," - xxxx"};
@@ -90,8 +111,8 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
             friezeChoice.addItem("F"+i+descript[i]);
         }
         friezeChoice.addChangeHandler(this);
-        this.getFlexCellFormatter().setColSpan(8, 0, 2);
-        this.setWidget(8,0,friezeChoice);
+        this.getFlexCellFormatter().setColSpan(9, 0, 3);
+        this.setWidget(9,0,friezeChoice);
 
         cycleChoice = new ListBox();
         cycleChoice.setVisibleItemCount(1);
@@ -101,8 +122,8 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
             cycleChoice.addItem(label);
         }
         cycleChoice.addChangeHandler(this);
-        this.getFlexCellFormatter().setColSpan(9, 0, 2);
-        this.setWidget(9,0,cycleChoice);
+        this.getFlexCellFormatter().setColSpan(10, 0, 3);
+        this.setWidget(10,0,cycleChoice);
 
         dyhChoice = new ListBox();
         dyhChoice.setVisibleItemCount(1);
@@ -113,8 +134,8 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
             dyhChoice.addItem(label);
         }
         dyhChoice.addChangeHandler(this);
-        this.getFlexCellFormatter().setColSpan(10, 0, 2);
-        this.setWidget(10,0,dyhChoice);
+        this.getFlexCellFormatter().setColSpan(11, 0, 3);
+        this.setWidget(11,0,dyhChoice);
 
         basicChoice = new ListBox();
         basicChoice.setVisibleItemCount(1);
@@ -124,8 +145,8 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
         }
         basicChoice.addChangeHandler(this);
 
-        this.getFlexCellFormatter().setColSpan(11, 0, 2);
-        this.setWidget(11,0,basicChoice);
+        this.getFlexCellFormatter().setColSpan(12, 0, 3);
+        this.setWidget(12,0,basicChoice);
 
         // done layout
 

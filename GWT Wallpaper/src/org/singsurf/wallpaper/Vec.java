@@ -7,7 +7,6 @@ import org.singsurf.compat.Point;
 
 
 public class Vec extends Point {
-	private static final long serialVersionUID = 1L;
 
 	public Vec(int x, int y) {
 		super(x, y);

@@ -377,7 +377,7 @@ public //	int[] fundY = {0,0,0,0,0,0};
 			return new Vec[]{new Vec(rect.x,rect.y)};
 		if(det==0)
 			return new Vec[]{new Vec(rect.x,rect.y)};
-		List points = new ArrayList();
+		List<Vec> points = new ArrayList<>();
 		Vec corners[] = new Vec[4];
 		if(DEBUG) System.out.println("glp "+rect);
 		corners[0] = new Vec(rect.x,rect.y);
@@ -445,7 +445,7 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	    if(minP==null || minQ==null) return null;
             return new Rectangle(0,0,minW,minH);
 	}
-	Comparator diagonalComparator = new Comparator() {
+	Comparator<Vec> diagonalComparator = new Comparator<Vec>() {
 
 	    public int compare(Vec v1, Vec v2) {
 	        int d1 = v1.x + v1.y;
@@ -455,10 +455,6 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	        if(v1.x<v2.x) return -1;
 	        if(v1.x>v2.x) return 1;
 	        return 0;
-	    }
-
-	    public int compare(Object arg0, Object arg1) {
-	        return compare((Vec) arg0,(Vec) arg1);
 	    }
 
 	};
@@ -473,8 +469,8 @@ public //	int[] fundY = {0,0,0,0,0,0};
 		//System.out.println("Frame "+U+" "+V+" det "+det);
 	}
 
-	public void removeLatticePoints(LinkedList points, Rectangle rect) {
-		ListIterator it = points.listIterator();
+	public void removeLatticePoints(LinkedList<Vec> points, Rectangle rect) {
+		ListIterator<Vec> it = points.listIterator();
 		while(it.hasNext()) {
 			Vec v = (Vec) it.next();
 			if(rect.contains(v))
