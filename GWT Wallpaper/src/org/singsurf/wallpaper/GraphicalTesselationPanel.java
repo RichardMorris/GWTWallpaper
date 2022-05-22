@@ -9,7 +9,6 @@ import java.util.List;
 import org.singsurf.wallpaper.tessrules.DiamondRule;
 import org.singsurf.wallpaper.tessrules.FrezeRule;
 import org.singsurf.wallpaper.tessrules.HexiRule;
-import org.singsurf.wallpaper.tessrules.IrregularHexRule;
 import org.singsurf.wallpaper.tessrules.PgramRule;
 import org.singsurf.wallpaper.tessrules.PointRule;
 import org.singsurf.wallpaper.tessrules.RectRule;
@@ -48,8 +47,8 @@ public class GraphicalTesselationPanel extends FlexTable implements ChangeHandle
 
         // controller = new Controller(this,)
         GraphicalTesselationBox TTcb = new GraphicalTesselationBox(PgramRule.rhombusTT,"p1");
-//        GraphicalTesselationBox R1cb = new GraphicalTesselationBox(PgramRule.rhombusR1);
-        GraphicalTesselationBox R1cb = new GraphicalTesselationBox(IrregularHexRule.p2hex,"p2");
+        GraphicalTesselationBox R1cb = new GraphicalTesselationBox(PgramRule.rhombusR1,"p2");
+//        GraphicalTesselationBox R1cb = new GraphicalTesselationBox(IrregularHexRule.p2hex,"p2");
         GraphicalTesselationBox CMcb = new GraphicalTesselationBox(DiamondRule.rhombCM,"cm");
         GraphicalTesselationBox CMMcb = new GraphicalTesselationBox(DiamondRule.rhombCMM,"cmm");
         GraphicalTesselationBox PMcb = new GraphicalTesselationBox(RectRule.rectPM,"pm");
