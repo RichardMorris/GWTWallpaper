@@ -174,20 +174,14 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	    if(this.drawSelectionPoints)
 	    {
 	        g.setColor(Color.red); // use lower case colors for compatability
-	        g.fillOval(cellVerts[0].x, cellVerts[0].y, 8, 8);
-//	        g.setColor(Color.white); // use lower case colors for compatability
-//	        g.drawOval(cellVerts[0].x - 3, cellVerts[0].y - 3, 8, 8);
+	        g.fillOval(cellVerts[0].x - 2, cellVerts[0].y - 2, 6, 6);
 
 	        g.setColor(Color.green); // use lower case colors for compatability
-	        g.fillOval(cellVerts[1].x, cellVerts[1].y, 8, 8);
-//	        g.setColor(Color.white); // use lower case colors for compatability
-//	        g.drawOval(cellVerts[1].x - 3, cellVerts[1].y - 3, 8, 8);
+	        g.fillOval(cellVerts[1].x - 2, cellVerts[1].y - 2, 6, 6);
 
 	        if (numSelPoints == 3) {
 	            g.setColor(Color.blue); // use lower case colors for compatability
-	            g.fillOval(cellVerts[2].x, cellVerts[2].y, 8, 8);
-//		        g.setColor(Color.white); // use lower case colors for compatability
-//		        g.drawOval(cellVerts[2].x - 2, cellVerts[2].y - 3, 8, 8);
+	            g.fillOval(cellVerts[2].x - 2, cellVerts[2].y - 2, 6, 6);
 	        }
 	        g.stroke();
 	    }
@@ -377,7 +371,7 @@ public //	int[] fundY = {0,0,0,0,0,0};
 			return new Vec[]{new Vec(rect.x,rect.y)};
 		if(det==0)
 			return new Vec[]{new Vec(rect.x,rect.y)};
-		List<Vec> points = new ArrayList<>();
+		List<Vec> points = new ArrayList<Vec>();
 		Vec corners[] = new Vec[4];
 		if(DEBUG) System.out.println("glp "+rect);
 		corners[0] = new Vec(rect.x,rect.y);
@@ -456,7 +450,6 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	        if(v1.x>v2.x) return 1;
 	        return 0;
 	    }
-
 	};
 	public void setLatticeType(int type) {
 		this.latticeType = type;
@@ -505,11 +498,9 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	public Graphics graphics;
 
 	public void paintSymetries(Graphics g, TessRule tr) {
-		GWT.log("paintSym "+drawReflectionLines);
+		//GWT.log("paintSym "+drawReflectionLines);
 		this.graphics=g;
-		
 		Rectangle rect = g.getClipBounds();
-	
 		if(rect==null) return;
 		Vec[] points = this.getLatticePoints(
 				new Rectangle(
@@ -566,14 +557,14 @@ public //	int[] fundY = {0,0,0,0,0,0};
                     boolean oldRot = this.drawRotationPoints;
                     this.drawGlideLines = false;
                     this.drawRotationPoints = false;
-                    GWT.log("DrawRef "+U.x+" "+U.y+" "+V.x+" "+V.y);
+//                    GWT.log("DrawRef "+U.x+" "+U.y+" "+V.x+" "+V.y);
                     for(int i=0;i<points.length;++i) { 
                     	Vec p = points[i];
                         if(det>0)
                             tr.paintSymetries(this.U,this.V,p.add(diff),this);
                         else
                             tr.paintSymetries(this.V,this.U,p.add(diff),this);
-                        GWT.log("Ref "+p.x+" "+p.y);
+//                        GWT.log("Ref "+p.x+" "+p.y);
                     }
                     this.drawGlideLines = oldGlide;
                     this.drawRotationPoints = oldRot;
@@ -697,8 +688,7 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	    case 1:
 	        break;
 	    case 2:
-	        //graphics.fillOval(P.x-shapeSize*3/4, P.y-shapeSize*3/4,shapeSize*3/2+1,shapeSize*3/2+1);
-	        graphics.fillOval(P.x, P.y,shapeSize*3/2+1,shapeSize*3/2+1);
+	        graphics.fillOval(P.x-shapeSize*3/4, P.y-shapeSize*3/4,shapeSize*3/2+1,shapeSize*3/2+1);
 	        break;
 	    case 3:
 	        int[] triX = {cospts[0]+P.x,cospts[2]+P.x,cospts[4]+P.x};
@@ -714,8 +704,7 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	        graphics.fillPolygon(hexX,hexY,6);
 	        break;
 	    default:
-	        //graphics.fillOval(P.x-shapeSize, P.y-shapeSize,shapeSize*2+1,shapeSize*2+1);
-	        graphics.fillOval(P.x, P.y,shapeSize*2+1,shapeSize*2+1);
+	        graphics.fillOval(P.x-shapeSize, P.y-shapeSize,shapeSize*2+1,shapeSize*2+1);
 	    break;
 	    }
 	}

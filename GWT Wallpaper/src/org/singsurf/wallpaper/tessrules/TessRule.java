@@ -329,7 +329,6 @@ public abstract class TessRule
             }
         }
     }
-     
 
     public double approxArea() { return 1; }
     public double approxAspect() { return 1;	}

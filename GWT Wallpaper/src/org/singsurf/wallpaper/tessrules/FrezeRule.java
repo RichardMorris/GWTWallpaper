@@ -89,7 +89,6 @@ public abstract class FrezeRule extends TessRule
             fd.numFund = 4;
         }
 
-
         //@Override
         public void fun(int[] in,int[] out,int det)
         {

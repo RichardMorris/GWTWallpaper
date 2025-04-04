@@ -44,7 +44,6 @@ public class Controller {
         tr.calcFrame(fd,this.wallpaper.curvertex, this.constrainVertices);
         tr.fixVerticies(fd);
         tr.calcFund(fd);
-        //dr.resetDelayed();
         if(showCoords)
             setText(fd.toString(dr));
         tr.replicate(dr,fd);
