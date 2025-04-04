@@ -14,7 +14,7 @@ import com.google.gwt.core.client.GWT;
  */
 public abstract class TessRule
 {
-    static final boolean TIME=true;
+    static final boolean TIME=false;
     static final boolean DEBUG=false;
     /** Whether advanced tile copying is being used */
 	private static final boolean COPY_TILES = true;

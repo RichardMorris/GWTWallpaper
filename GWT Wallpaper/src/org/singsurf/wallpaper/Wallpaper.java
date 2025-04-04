@@ -175,9 +175,6 @@ public class Wallpaper
 			log("paintCanvas" + dr.dispRect + " clicks " + clickCount);
 		// long t0 = System.currentTimeMillis();
 
-		// System.out.printf("cp %d %d %d %d %d
-		// %d\n",fd.verticies[0].x,fd.verticies[0].y,fd.verticies[1].x,fd.verticies[1].y,fd.verticies[2].x,fd.verticies[2].y);
-		// System.out.printf("%d %d%n", this.offset.x,this.offset.y);
 		g.translate(this.offset.x, this.offset.y);
 		Rectangle bounds = g.getClipBounds();
 		if (bounds != null && (bounds.x + bounds.width > dr.dispRect.x + dr.dispRect.width)) {
@@ -188,7 +185,6 @@ public class Wallpaper
 			g.clearRect(bounds.x, dr.dispRect.y + dr.dispRect.height, bounds.width,
 					bounds.y + bounds.height - (dr.dispRect.y + dr.dispRect.height));
 		}
-		// g.clipRect(dr.dispRect.x,dr.dispRect.y,dr.dispRect.width,dr.dispRect.height);
 		dr.paint(g, this);
 		g.setPaintMode();
 
@@ -367,8 +363,12 @@ public class Wallpaper
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (DEBUG)
-			log("Mouse pressed");
+//		log("MouseDown X "+event.getX()+" "+event.getY()
+//		+" rel "+event.getRelativeX(myCanvas.getElement())
+//		+" "+event.getRelativeY(myCanvas.getElement())
+//		+" client "+event.getClientX()+" "+event.getClientY()
+//		+" screen "+event.getScreenX()+" "+event.getScreenY()
+//		);
 		++clickCount;
 		mousePressed = true;
 		// log(
@@ -450,8 +450,6 @@ public class Wallpaper
 	}
 
 	public void mouseMoved(MouseMoveEvent event) {
-		// if(DEBUG) log("Mouse moved");
-
 		// TODO if(mouseMode==MOUSE_PIPET) {
 		// int x = event.getX()-offset.x;
 		// int y = event.getY()-offset.y;
