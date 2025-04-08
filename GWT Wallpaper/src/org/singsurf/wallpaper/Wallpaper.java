@@ -7,6 +7,8 @@ import org.singsurf.compat.Graphics;
 import org.singsurf.compat.Graphics2D;
 import org.singsurf.compat.Point;
 import org.singsurf.compat.Rectangle;
+import org.singsurf.wallpaper.animation.AnimationController;
+import org.singsurf.wallpaper.animation.AnimationPath;
 import org.singsurf.wallpaper.tessrules.DiamondRule;
 import org.singsurf.wallpaper.tessrules.TessRule;
 
@@ -56,6 +58,7 @@ public class Wallpaper
 	public FundamentalDomain fd;
 	public TessRule tr = DiamondRule.rhombCM;
 	public Controller controller;
+	public AnimationController animController;
 	public GraphicalTesselationPanel gtp;
 	public Panel topBar;
 	public TextArea description;
@@ -89,7 +92,7 @@ public class Wallpaper
 	/** Current path of animations */
 	// AnimationPath path;
 	/** Button to stop animations */
-	// protected Button stopBut;
+	protected Button stopBut;
 	// private TimerTask animateTask = null;
 	// public Thread animate = null;
 	// private final Timer timer = new Timer();
@@ -110,6 +113,7 @@ public class Wallpaper
 		controller = new Controller(this, dr, fd);
 		gtp = new GraphicalTesselationPanel(controller);
 		controller.setTesselation(gtp.currentTr);
+		animController = new AnimationController(controller);
 		topBar = buildButtonBar();
 		description = new TextArea();
 		description.setVisibleLines(5);
@@ -124,6 +128,7 @@ public class Wallpaper
 	}
 
 	Image baseImage;
+	private ListBox animateMenu;
 	
 	public void loadImage(Image img) {
 		consoleLog("Load image "+img.getWidth()+"x"+img.getHeight());
@@ -283,24 +288,6 @@ public class Wallpaper
 			}
 		});
 
-		// interactiveCB = new JCheckBox("Interactive mode",interactiveMode);
-		// interactiveCB.addItemListener(new ItemListener() {
-		// public void itemStateChanged(ItemEvent e) {
-		// if(e.getStateChange() == ItemEvent.SELECTED)
-		// {
-		// interactiveMode = true;
-		// myCanvas.repaint();
-		// ta.setText("Interactive mode.");
-		// }
-		// else
-		// {
-		// interactiveMode = false;
-		// ta.setText("Double click to redraw.");
-		// myCanvas.repaint();
-		// }
-		// }});
-		// p2.add(interactiveCB);
-
 		CheckBox symmetryCB = new CheckBox("Draw symmetry");
 		symmetryCB.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -342,24 +329,51 @@ public class Wallpaper
 			}
 		});
 		p2.add(zoomChoice);
-
-		// p2.add(new JLabel("Anim"));
-		// stopBut = new JButton("Start");
-		// stopBut.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// stopStartAnim();
-		// }
-		//
-		// });
-		// stopBut.setVisible(true);
-		// stopBut.setEnabled(true);
-		// p2.add(stopBut);
-
-		// JComboBox animateMenu = buildAnimationChoice();
-		// p2.add(animateMenu);
+		p2.add(new Label("Anim"));
+		animateMenu = buildAnimationChoice();
+		p2.add(animateMenu);
+		stopBut = new Button("Start");
+		stopBut.addClickHandler(new ClickHandler() {
+	 		 public void onClick(ClickEvent e) {
+	 			 if (stopBut.getText().equals("Start")) {
+	 				 stopBut.setText("Stop");
+	 				  animController.startAnim();
+	 			 } else {
+	 				 stopBut.setText("Start");
+	 				 animController.stopAnim();
+	 			 }
+	 		 }
+		 });
+		 stopBut.setVisible(true);
+		 stopBut.setEnabled(true);
+		 p2.add(stopBut);
 
 		return p2;
 	}
+
+	private ListBox buildAnimationChoice() {
+	    ListBox animateChoice = new ListBox();
+	    String animations[] = {"bounce","smooth","up","down","left","right","NE","NW","SE","SW", "rotate"};
+	    for(int i=0;i<animations.length;++i) {
+	        animateChoice.addItem(animations[i]);
+	    }
+	    animateChoice.setSelectedIndex(0);
+
+	    animateChoice.addChangeHandler(new ChangeHandler() {
+	        public void onChange(ChangeEvent event) {
+	            int index = animateChoice.getSelectedIndex();
+	            String name = animateChoice.getItemText(index);
+	            if (DEBUG)
+	                log("Animation " + name);
+	            AnimationPath path = AnimationPath.getPathByName(name, 1);
+	            if (path != null) {
+	                animController.setAnimationPath(path);
+	            }
+	        }
+	    });	
+	    return animateChoice;
+	}
+
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
@@ -400,25 +414,6 @@ public class Wallpaper
 			fd.saveOldVerticies();
 			fd.setVertex(curvertex, x, y);
 		}
-		// TODO work out double click
-		// if(event..getClickCount()>1)
-		// {
-		// if(DEBUG) log("clicks "+e.getClickCount());
-		// // Only recalculate when paint has been completed or 1 sec passed.
-		// // and 0.1s has passed.
-		// long curtime = System.currentTimeMillis();
-		// //log("t "+(curtime- lasttime)+" pd "+paintDone);
-		// if(curtime- lasttime <100) return;
-		// if(!paintDone && curtime- lasttime <1000 ) return;
-		// lasttime = curtime;
-		// paintDone = false;
-		// if(controller.showingOriginal /* || !this.interactiveMode */ ) {
-		// controller.applyTessellation();
-		// }
-		// else {
-		// controller.showOriginal();
-		// }
-		// }
 	}
 
 	@Override
@@ -450,22 +445,6 @@ public class Wallpaper
 	}
 
 	public void mouseMoved(MouseMoveEvent event) {
-		// TODO if(mouseMode==MOUSE_PIPET) {
-		// int x = event.getX()-offset.x;
-		// int y = event.getY()-offset.y;
-		// if(x>=dr.destRect.width || y>=dr.destRect.height) {
-		// myCanvas.setCursor(Cursor.getDefaultCursor());
-		// return;
-		// }
-		// myCanvas.setCursor(pipet);
-		// int outInd = x+y*dr.destRect.width;
-		// Color col = new Color(dr.pixels[outInd]);
-		// setText(col.toString());
-		// return;
-		// }
-		// int x = event.getX()-offset.x;
-		// int y = event.getY()-offset.y;
-
 		int x0 = event.getX();
 		int y0 = event.getY();
 		int x = x0 - offset.x;

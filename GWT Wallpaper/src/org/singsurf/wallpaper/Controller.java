@@ -9,10 +9,10 @@ import org.singsurf.wallpaper.tessrules.TessRule;
 
 public class Controller {
 
-    Wallpaper wallpaper=null; 
-    TessRule tr=null;
-    DrawableRegion dr=null;
-    FundamentalDomain fd=null;
+    public Wallpaper wallpaper=null; 
+    public TessRule tr=null;
+    public DrawableRegion dr=null;
+    public FundamentalDomain fd=null;
     boolean showingOriginal = true;
     boolean constrainVertices = false;
     /**
@@ -121,4 +121,5 @@ public class Controller {
         showCoords=b;
 
     }
+
 }
