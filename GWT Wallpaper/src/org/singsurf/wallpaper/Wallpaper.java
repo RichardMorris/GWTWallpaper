@@ -368,6 +368,8 @@ public class Wallpaper
 	            AnimationPath path = AnimationPath.getPathByName(name, 1);
 	            if (path != null) {
 	                animController.setAnimationPath(path);
+	 				stopBut.setText("Stop");
+	 				animController.startAnim();
 	            }
 	        }
 	    });	
