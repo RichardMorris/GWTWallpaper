@@ -17,8 +17,6 @@ import org.singsurf.compat.Rectangle;
 import org.singsurf.compat.Stroke;
 import org.singsurf.wallpaper.tessrules.TessRule;
 
-import com.google.gwt.core.client.GWT;
-
 public class FundamentalDomain {
     final static boolean DEBUG=false;
     final static boolean BW_SYMS=false;
@@ -28,15 +26,13 @@ public class FundamentalDomain {
     public static final int PARALLOGRAM = 0;
     public static final int BASIC=4;
 
-//	int[] vertexX = {397,281,281,397,0,0};
-//	int[] vertexY = {218,218,102,102,0,0,0};
-//	int[] oldVertexX = {397,281,281,397,0,0};
-//	int[] oldVertexY = {218,218,102,102,0,0,0};
-	public Vec[] cellVerts = new Vec[]{ new Vec(397,281), new Vec(281,218), new Vec(281,102),
-	    		new Vec(397,102), new Vec(0,0), new Vec(0,0) };
+	public Vec[] cellVerts = new Vec[]{ 
+			new Vec(397,281), new Vec(281,218), new Vec(281,102),
+	    	new Vec(397,102), new Vec(0,0), new Vec(0,0) };
 	
-	Vec[] oldCellVerts = new Vec[]{ new Vec(397,281), new Vec(281,218), new Vec(281,102),
-		new Vec(397,102), new Vec(0,0), new Vec(0,0) };
+	Vec[] oldCellVerts = new Vec[]{ 
+			new Vec(397,281), new Vec(281,218), new Vec(281,102),
+			new Vec(397,102), new Vec(0,0), new Vec(0,0) };
 	
 	/** Number of points round fundamental domain **/
 	public int numFund=0;
@@ -69,14 +65,12 @@ public //	int[] fundY = {0,0,0,0,0,0};
 	 * @return index of vertex or -1
 	 */
 	public int getClosestVertex(int x,int y) {
-		int mindistsq = 100;
+		int mindistsq = 400;
 		int index = -1;
 		for(int i=0;i<this.numSelPoints;++i)
-			if((cellVerts[i].x-x)*(cellVerts[i].x-x) + 
-				(cellVerts[i].y-y)*(cellVerts[i].y-y) < mindistsq )
+			if( cellVerts[i].distSq(x,y) < mindistsq )
 			{
-				mindistsq = (cellVerts[i].x-x)*(cellVerts[i].x-x) + 
-					(cellVerts[i].y-y)*(cellVerts[i].y-y);
+				mindistsq = cellVerts[i].distSq(x,y);
 				index = i;
 			}
 		return index;

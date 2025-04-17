@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -24,8 +25,18 @@ public class GWT_Wallpaper implements EntryPoint {
 	String filename=null;
 	
 	public void onModuleLoad() {
-		wall = new Wallpaper(800,600);
-	    
+		int wid = Window.getClientWidth();
+		int hgt = Window.getClientHeight();
+		Wallpaper.consoleLog("GWT_Wallpaper: onModuleLoad() Window "+wid+"x"+hgt);
+		Document doc = Document.get();
+		Wallpaper.consoleLog("GWT_Wallpaper: onModuleLoad() Doc "+doc.getBody().getClientWidth()+"x"+doc.getBody().getClientHeight());
+		wid -= 20;
+		hgt -= 20;
+		//		Element cvs = DOM.getElementById("wallpaperTable");
+//		wid = cvs.getClientWidth();
+//		hgt = cvs.getClientHeight();
+		wall = new Wallpaper(wid < 800 ? wid : 800, hgt < 600 ? hgt : 600);
+//		wall = new Wallpaper(800,600);
 		String url = Document.get().getURL();
 		int indexQ = url.indexOf('?');
 		if(indexQ>0) {

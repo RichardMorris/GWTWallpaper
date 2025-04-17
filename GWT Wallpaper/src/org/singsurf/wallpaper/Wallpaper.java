@@ -16,11 +16,14 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HandlesAllTouchEvents;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -31,9 +34,13 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchCancelEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -104,7 +111,8 @@ public class Wallpaper
 		myCanvas = Canvas.createIfSupported();
 		myCanvas.setCoordinateSpaceWidth(w);
 		myCanvas.setCoordinateSpaceHeight(h);
-
+		canvasWidth = w;
+		canvasHeight = h;
 		context = myCanvas.getContext2d();
 		graphics = new Graphics2D(context);
 		dr = new DrawableRegion(this);
@@ -118,13 +126,19 @@ public class Wallpaper
 		description = new TextArea();
 		description.setVisibleLines(5);
 
-		GWT.log("Wallpaper construct");
+		consoleLog("Wallpaper construct" + w + "x" + h);
 
 		myCanvas.addMouseDownHandler(this);
 		myCanvas.addMouseUpHandler(this);
 		myCanvas.addMouseMoveHandler(this);
 		myCanvas.addMouseOverHandler(this);
 		myCanvas.addMouseOutHandler(this);
+		TouchEventHandles teh = new TouchEventHandles();
+		myCanvas.addTouchStartHandler(teh);
+		myCanvas.addTouchMoveHandler(teh);
+		myCanvas.addTouchEndHandler(teh);
+		myCanvas.addTouchCancelHandler(teh);
+		
 	}
 
 	Image baseImage;
@@ -249,7 +263,7 @@ public class Wallpaper
 	}
 
 	protected Panel buildButtonBar() {
-		Panel p2 = new HorizontalPanel();
+		Panel p2 = new FlowPanel();
 		origTileButton = new Button("Original Image");
 		origTileButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -270,6 +284,7 @@ public class Wallpaper
 		Button b4 = new Button("Reset");
 		b4.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent e) {
+				consoleLog("Reset "+ dr.dispRect.x+" "+dr.dispRect.y+" "+dr.dispRect.width+" "+dr.dispRect.height);
 				fd.resetDomain(dr.dispRect);
 				controller.tr.firstCall = true;
 				controller.calcGeom();
@@ -379,12 +394,19 @@ public class Wallpaper
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		int x0 = event.getX();
+		int y0 = event.getY();
+
 //		log("MouseDown X "+event.getX()+" "+event.getY()
 //		+" rel "+event.getRelativeX(myCanvas.getElement())
 //		+" "+event.getRelativeY(myCanvas.getElement())
 //		+" client "+event.getClientX()+" "+event.getClientY()
 //		+" screen "+event.getScreenX()+" "+event.getScreenY()
 //		);
+		mouse_touch_down(x0, y0);
+	}
+
+	private void mouse_touch_down(int x0, int y0) {
 		++clickCount;
 		mousePressed = true;
 		// log(
@@ -399,8 +421,6 @@ public class Wallpaper
 		// int x0 = event.getClientX() - myCanvas.getAbsoluteLeft();
 		// int y0 = event.getClientY() - myCanvas.getAbsoluteTop();
 		// log("diff " + y0 );
-		int x0 = event.getX();
-		int y0 = event.getY();
 		int x = x0 - offset.x;
 		int y = y0 - offset.y;
 		if (x > dr.destRect.width)
@@ -412,6 +432,8 @@ public class Wallpaper
 		if (y < 0)
 			y = 0;
 		curvertex = fd.getClosestVertex(x, y);
+		log("Mouse down " + x + " " + y + " vertex " + curvertex);
+		log(fd.toString(dr));
 		if (curvertex != -1) {
 			fd.saveOldVerticies();
 			fd.setVertex(curvertex, x, y);
@@ -468,16 +490,22 @@ public class Wallpaper
 			log("FAKE Event " + event);
 			return;
 		}
-		// TODO if((e.getModifiers() & InputEvent.BUTTON3_MASK )!= 0) return;
-		if (curvertex == -1)
-			return;
-		fd.saveOldVerticies();
 
 		// int x = e.getX()-offset.x;
 		// int y = e.getY()-offset.y;
 
 		int x0 = event.getX();
 		int y0 = event.getY();
+
+		mouse_touch_drag(x0, y0);
+	}
+
+	private void mouse_touch_drag(int x0, int y0) {
+		// TODO if((e.getModifiers() & InputEvent.BUTTON3_MASK )!= 0) return;
+		if (curvertex == -1)
+			return;
+		fd.saveOldVerticies();
+		
 		int x = x0 - offset.x;
 		int y = y0 - offset.y;
 
@@ -533,4 +561,52 @@ public class Wallpaper
 		console.log(msg);
 	}-*/;
 
+	class TouchEventHandles extends HandlesAllTouchEvents {
+
+		String allTouches(JsArray<Touch> touches) {
+
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < touches.length(); ++i) {
+				sb.append("Touch " + i + " X " + touches.get(i).getRelativeX(myCanvas.getElement()) + " Y "
+						+ touches.get(i).getRelativeY(myCanvas.getElement()) + "\n");
+			}
+			return sb.toString();
+		}	
+
+		@Override
+		public void onTouchMove(TouchMoveEvent event) {
+//			consoleLog("TouchMove  " + allTouches(event.getTouches()));
+			event.preventDefault();
+			int x0 = event.getTouches().get(0).getRelativeX(myCanvas.getElement());
+			int y0 = event.getTouches().get(0).getRelativeY(myCanvas.getElement());
+
+			mouse_touch_drag(x0, y0);
+		}
+
+		@Override
+		public void onTouchEnd(TouchEndEvent event) {
+			consoleLog("TouchEnd  " + allTouches(event.getTouches()));
+			event.preventDefault();
+			mousePressed = false;
+		}
+
+		@Override
+		public void onTouchCancel(TouchCancelEvent event) {
+			consoleLog("TouchCancel  " + allTouches(event.getTouches()));
+			event.preventDefault();
+			mousePressed = false;
+		}
+
+		@Override
+		public void onTouchStart(TouchStartEvent event) {
+			consoleLog("TouchStart  " + allTouches(event.getTouches()));
+			event.preventDefault();
+			int x0 = event.getTouches().get(0).getRelativeX(myCanvas.getElement());
+			int y0 = event.getTouches().get(0).getRelativeY(myCanvas.getElement());
+			mouse_touch_down(x0, y0);
+		}
+
+	}
+	
+	
 }

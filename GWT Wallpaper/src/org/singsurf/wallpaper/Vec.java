@@ -113,4 +113,7 @@ public class Vec extends Point {
 		this.x = vec.x;
 		this.y = vec.y;
 	}
+	public int distSq(int x1, int y1) {
+		return (x-x1)*(x-x1) + (y-y1)*(y-y1);
+	}
 }
